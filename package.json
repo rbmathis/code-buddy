@@ -1,0 +1,254 @@
+{
+    "name": "ecma-codebuddy",
+    "displayName": "ecma-codebuddy: write and improve code using AI, in commercial and govcloud.",
+    "description": "Use GPT3 or ChatGPT right inside the IDE to enhance and automate your coding with AI-powered assistance",
+    "version": "1.0.0",
+    "publisher": "BartonMathis",
+    "icon": "resources/extensionIcon.png",
+    "license": "MIT",
+    "repository": {
+        "url": "https://github.com/rbmathis/ecma-codebuddy"
+    },
+    "engines": {
+        "vscode": "^1.73.0"
+    },
+    "categories": [
+        "Other",
+        "Programming Languages",
+        "Snippets",
+        "Azure"
+    ],
+    "keywords": [
+        "chatgpt",
+        "openai",
+        "aoai",
+        "copilot",
+        "ai",
+        "explain",
+        "find bugs",
+        "explain ",
+        "refactor",
+        "azure",
+        "govcloud"
+    ],
+    "main": "./dist/extension.js",
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "contributes": {
+        "commands": [
+            {
+                "command": "ecma-codebuddy.ask",
+                "title": "Ask ecma-codebuddy"
+            },
+            {
+                "command": "ecma-codebuddy.explain",
+                "title": "ecma-codebuddy: Explain this"
+            },
+            {
+                "command": "ecma-codebuddy.refactor",
+                "title": "ecma-codebuddy: Refactor and Optimize this"
+            },
+            {
+                "command": "ecma-codebuddy.findProblems",
+                "title": "ecma-codebuddy: Find problems"
+            },
+            {
+                "command": "ecma-codebuddy.documentation",
+                "title": "ecma-codebuddy: Write documentation"
+            },
+            {
+                "command": "ecma-codebuddy.writetests",
+                "title": "ecma-codebuddy: Write tests"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "command": "ecma-codebuddy.ask",
+                    "when": "editorTextFocus",
+                    "group": "ecma-codebuddy-menu-group@1"
+                },
+                {
+                    "command": "ecma-codebuddy.explain",
+                    "when": "editorHasSelection",
+                    "group": "ecma-codebuddy-menu-group@2"
+                },
+                {
+                    "command": "ecma-codebuddy.refactor",
+                    "when": "editorHasSelection",
+                    "group": "ecma-codebuddy-menu-group@3"
+                },
+                {
+                    "command": "ecma-codebuddy.findProblems",
+                    "when": "editorHasSelection",
+                    "group": "ecma-codebuddy-menu-group@4"
+                },
+                {
+                    "command": "ecma-codebuddy.documentation",
+                    "when": "editorHasSelection",
+                    "group": "ecma-codebuddy-menu-group@5"
+                },
+                {
+                    "command": "ecma-codebuddy.writetests",
+                    "when": "editorHasSelection",
+                    "group": "ecma-codebuddy-menu-group@6"
+                }
+            ],
+            "commandPalette": [
+                {
+                    "command": "ecma-codebuddy.ask"
+                },
+                {
+                    "command": "ecma-codebuddy.explain",
+                    "when": "editorHasSelection"
+                },
+                {
+                    "command": "ecma-codebuddy.refactor",
+                    "when": "editorHasSelection"
+                },
+                {
+                    "command": "ecma-codebuddy.findProblems",
+                    "when": "editorHasSelection"
+                },
+                {
+                    "command": "ecma-codebuddy.documentation",
+                    "when": "editorHasSelection"
+                },
+                {
+                    "command": "ecma-codebuddy.writetests",
+                    "when": "editorHasSelection"
+                }
+            ]
+        },
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "ecma-codebuddy",
+                    "title": "ecma-codebuddy",
+                    "icon": "resources/icon.png"
+                }
+            ]
+        },
+        "views": {
+            "ecma-codebuddy": [
+                {
+                    "type": "webview",
+                    "id": "ecma-codebuddy.chatView",
+                    "name": "ecma-codebuddy"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "ecma-codebuddy",
+            "type": "object",
+            "properties": {
+                "ecma-codebuddy.azureCloud": {
+                    "type": "string",
+                    "default": "AzureCloud",
+                    "enum": [
+                        "AzureCloud",
+                        "AzureUSGovernment"
+                    ],
+                    "description": "The Azure cloud to use for Authorization and KeyVault. Ex: 'AzureCloud' or 'AzureUSGovernment'",
+                    "order": 0
+                },
+                "ecma-codebuddy.keyvaultName": {
+                    "type": "string",
+                    "default": "",
+                    "description": "The name (not Uri) of the Azure KeyVault that contains the secrets for [AOAIDeployment], [AOAIKey], [AOAIEndpoint], [AOAIAPIVersion]",
+                    "order": 1
+                },
+                "ecma-codebuddy.maxTokens": {
+                    "type": "number",
+                    "default": 1024,
+                    "description": "Maximum number of tokens inside response per request",
+                    "order": 2
+                },
+                "ecma-codebuddy.temperature": {
+                    "type": "number",
+                    "default": 0.5,
+                    "description": "Temperature to use for the GPT3 (between 0 (conservative) and 1 (creative))",
+                    "order": 3
+                },
+                "ecma-codebuddy.pasteOnClick": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Paste the code from a codeblock inside the response into the editor when you click on it",
+                    "order": 4
+                },
+                "ecma-codebuddy.promptPrefix.explain": {
+                    "type": "string",
+                    "default": "Explain what this code does: ",
+                    "description": "The prompt prefix used for explaining the selected code",
+                    "order": 5
+                },
+                "ecma-codebuddy.promptPrefix.refactor": {
+                    "type": "string",
+                    "default": "Refactor and Optimize this code and then explain what's changed: ",
+                    "description": "The prompt prefix used to refactor/optimize the selected code",
+                    "order": 6
+                },
+                "ecma-codebuddy.promptPrefix.findProblems": {
+                    "type": "string",
+                    "default": "Find problems with the following code, fix them and explain what was wrong (Do not change anything else, if there are no problems say so): ",
+                    "description": "The prompt prefix used for finding problems in the selected code",
+                    "order": 7
+                },
+                "ecma-codebuddy.promptPrefix.documentation": {
+                    "type": "string",
+                    "default": "Write documentation for the following code: ",
+                    "description": "The prompt prefix used for writing documentation for the selected code",
+                    "order": 8
+                },
+                "ecma-codebuddy.promptPrefix.writetests": {
+                    "type": "string",
+                    "default": "Generate automated test methods code for this method: ",
+                    "description": "The prompt prefix used for creating tests for the selected code",
+                    "order": 9
+                },
+                "ecma-codebuddy.selectedInsideCodeblock": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Append selected code as a codeblock (```...code...```) instead of plain text",
+                    "order": 10
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "yarn run package",
+        "compile": "webpack",
+        "watch": "webpack --watch",
+        "package": "webpack --mode production --devtool hidden-source-map",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
+        "lint": "eslint src --ext ts",
+        "test": "node ./out/test/runTest.js",
+        "update-package-lock": "npm install --package-lock-only"
+    },
+    "devDependencies": {
+        "@types/glob": "^8.0.0",
+        "@types/mocha": "^10.0.1",
+        "@types/node": "16.x",
+        "@types/vscode": "^1.73.0",
+        "@typescript-eslint/eslint-plugin": "^5.45.0",
+        "@typescript-eslint/parser": "^5.45.0",
+        "@vscode/test-electron": "^2.2.0",
+        "eslint": "^8.28.0",
+        "glob": "^8.0.3",
+        "mocha": "^10.1.0",
+        "ts-loader": "^9.4.1",
+        "typescript": "^4.9.3",
+        "webpack": "^5.75.0",
+        "webpack-cli": "^5.0.0"
+    },
+    "dependencies": {
+        "@azure/identity": "^4.4.1",
+        "@azure/keyvault-secrets": "^4.8.0",
+        "openai": "^4.63.0",
+        "tslib": "^2.7.0",
+        "yarn": "^1.22.22"
+    }
+}
