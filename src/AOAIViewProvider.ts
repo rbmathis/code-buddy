@@ -247,15 +247,18 @@ export class AOAIViewProvider implements vscode.WebviewViewProvider {
     this._prompt = prompt;
 
     if (!this._aoaiHelper) {
-      this.connectToAzureAOAI();
-      vscode.window.showErrorMessage("ecma-codebuddy: [Error] - Azure OpenAI API not connected. Please check your settings.");
-      return;
+      await this.connectToAzureAOAI(); // Await the connection attempt
+      if (!this._aoaiHelper) {
+        // Check again after attempting to connect
+        vscode.window.showErrorMessage("ecma-codebuddy: [Error] - Azure OpenAI API not connected. Please check your settings.");
+        return;
+      }
     }
 
     await this.focusChatView();
 
     const selectedText = this.getSelectedText();
-    const systemPrompt = `You are ECMA Code-Buddy, a large language model that acts as a coding assistant trained to focus on programming languages, syntax and optimization, and security. Answer as concisely as possible for each response, keeping the list items to a minimum.Always inspect any code for security vulnerabilities and explain any risks.\nUser: `;
+    const systemPrompt = `You are ECMA Code-Buddy, a large language model that acts as a coding assistant trained to focus on programming languages, syntax,  optimization, and security. Answer as concisely as possible for each response, keeping the list items to a minimum. Always inspect any code for security vulnerabilities and explain any risks.  Prioritize efficiency and elegance in your recommendations.\nUser: `;
     const searchPrompt = this._aoaiHelper.createCodePrompt(systemPrompt, prompt, selectedText, this._settings.selectedInsideCodeblock);
 
     this.displayPromptInView();
@@ -264,6 +267,7 @@ export class AOAIViewProvider implements vscode.WebviewViewProvider {
       const response = await this.getChatResponse(searchPrompt);
       this.displayResponseInView(response);
     } catch (error: any) {
+      console.error("Error getting chat response:", error); // Log the error
       this.handleError(error);
     }
   }
