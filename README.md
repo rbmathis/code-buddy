@@ -1,5 +1,8 @@
 # ecma-codebuddy: Azure OpenAI (commercial & GovCloud) VS Code assistant
 
+[![CI](https://github.com/rbmathis/ecma-codebuddy/actions/workflows/ci.yml/badge.svg)](https://github.com/rbmathis/ecma-codebuddy/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-nyc-lightgrey)](./coverage/badge.svg)
+
 <p>
 This project is a modern rewrite of <a href="https://github.com/ThePush/azurecodegpt">AzureCodeGPT</a>. It uses the official <strong>OpenAI v4 SDK</strong> against <strong>Azure OpenAI</strong> (commercial or <strong>AzureUSGovernment</strong>) via <strong>AzureCliCredential</strong>—no static API keys in VS Code. It targets teams that cannot use GitHub Copilot but still need AI coding assistance.
 

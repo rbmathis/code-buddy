@@ -1,15 +1,14 @@
 import * as path from "path";
-import * as fs from "fs";
 import * as Mocha from "mocha";
+import glob from "glob";
 
 export function run(): Promise<void> {
   const mocha = new Mocha({ ui: "bdd", color: true });
-  const testsRoot = __dirname;
+  // Look for compiled tests under out/test (suite + unit)
+  const testsRoot = path.resolve(__dirname, ".." );
 
-  // Add all test files under this directory
-  fs.readdirSync(testsRoot)
-    .filter((file) => file.endsWith(".test.js"))
-    .forEach((file) => mocha.addFile(path.resolve(testsRoot, file)));
+  const files = glob.sync("**/*.test.js", { cwd: testsRoot, absolute: true });
+  files.forEach((file) => mocha.addFile(file));
 
   return new Promise((resolve, reject) => {
     mocha.run((failures: number) => {
