@@ -1,6 +1,8 @@
 # ecma-codebuddy: Azure OpenAI (commercial & GovCloud) VS Code assistant
 
 [![CI](https://github.com/rbmathis/code-buddy/actions/workflows/ci.yml/badge.svg)](https://github.com/rbmathis/code-buddy/actions/workflows/ci.yml)
+=======
+
 [![Coverage](https://img.shields.io/badge/coverage-nyc-lightgrey)](./coverage/badge.svg)
 
 <p>
