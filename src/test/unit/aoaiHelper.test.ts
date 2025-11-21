@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { expect } from "chai";
 import { AOAIHelper } from "../../AOAIHelper";
 import * as sinon from "sinon";
