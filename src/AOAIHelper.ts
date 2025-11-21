@@ -37,6 +37,15 @@ export class AOAIHelper {
     this._openai = new AzureOpenAI(opts);
   }
 
+  /** @internal For unit testing: create an instance with an optional mock client */
+  public static _createForTest(aoaiEndpointConfig: AOAIEndpointSecrets, options: AOAIOptions, openaiClient?: any): AOAIHelper {
+    const instance = new AOAIHelper(aoaiEndpointConfig, options);
+    if (openaiClient) {
+      (instance as any)._openai = openaiClient;
+    }
+    return instance;
+  }
+
   /**
    * Retrieves an instance of `AOAIHelper`. If `aoaiEndpointConfig` is provided, it attempts to create a new instance
    * and connect to AOAI using the provided configuration. If the connection is successful, the instance is stored
@@ -128,12 +137,6 @@ export class AOAIHelper {
     chatMessageBuffer.push({
       role: "user",
       content: userPrompt.trim(),
-    });
-
-    // Add assistant's initial placeholder response
-    chatMessageBuffer.push({
-      role: "assistant",
-      content: "...",
     });
 
     return chatMessageBuffer;

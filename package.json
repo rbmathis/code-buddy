@@ -226,6 +226,8 @@
         "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
         "lint": "eslint src --ext ts",
         "test": "node ./out/test/runTest.js",
+        "test:unit": "mocha -r ts-node/register src/test/unit/**/*.test.ts",
+        "coverage": "nyc -r text-summary -r lcov -r json-summary npm run test:unit && node scripts/coverage-badge.js",
         "update-package-lock": "npm install --package-lock-only"
     },
     "devDependencies": {
@@ -239,10 +241,25 @@
         "eslint": "^8.28.0",
         "glob": "^8.0.3",
         "mocha": "^10.1.0",
+        "chai": "^4.3.10",
+        "sinon": "^17.0.1",
+        "@types/chai": "^4.3.11",
+        "@types/sinon": "^17.0.3",
+        "proxyquire": "^2.1.3",
+        "@types/proxyquire": "^1.3.30",
+        "badge-maker": "^3.3.1",
+        "ts-node": "^10.9.2",
+        "nyc": "^17.1.0",
         "ts-loader": "^9.4.1",
         "typescript": "^4.9.3",
         "webpack": "^5.75.0",
         "webpack-cli": "^5.0.0"
+    },
+    "nyc": {
+        "exclude": [
+            "src/test/**",
+            "out/**"
+        ]
     },
     "dependencies": {
         "@azure/identity": "^4.4.1",
