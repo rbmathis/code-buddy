@@ -116,11 +116,23 @@ export class AOAIViewProvider implements vscode.WebviewViewProvider {
       const secrets = await this.loadAOAISecrets();
 
       // Ensure AOAI endpoint is for govcloud if the setting is set
-      if (this._settings.azureCloud === "AzureUSGovernment" && !secrets.aoaiEndpoint.endsWith(".us/") && !secrets.aoaiEndpoint.endsWith(".us")) {
-        vscode.window.showErrorMessage(
-          "ecma-codebuddy: [Error] - The setting for [AzureCloud] is set for AzureUSGovernment, but the AOAI endpoint loaded from KeyVault doesn't appear to be a GovCloud endpoint. Please check the secrets in KeyVault to ensure the value for [AOAIEndpoint] is configured for a govCloud AOAI endpoint."
-        );
-        return;
+      if (this._settings.azureCloud === "AzureUSGovernment") {
+        try {
+          const endpointUrl = new URL(secrets.aoaiEndpoint);
+          const isHttps = endpointUrl.protocol === "https:";
+          const isGovHost = endpointUrl.hostname.endsWith(".openai.azure.us");
+          if (!isHttps || !isGovHost) {
+            vscode.window.showErrorMessage(
+              "ecma-codebuddy: [Error] - [AzureCloud] is AzureUSGovernment, but [AOAIEndpoint] is not an https://*.openai.azure.us endpoint. Check Key Vault secrets."
+            );
+            return;
+          }
+        } catch (e) {
+          vscode.window.showErrorMessage(
+            "ecma-codebuddy: [Error] - [AOAIEndpoint] is not a valid URL. Check Key Vault secrets."
+          );
+          return;
+        }
       }
 
       // Connect to AOAI

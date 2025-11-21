@@ -130,12 +130,6 @@ export class AOAIHelper {
       content: userPrompt.trim(),
     });
 
-    // Add assistant's initial placeholder response
-    chatMessageBuffer.push({
-      role: "assistant",
-      content: "...",
-    });
-
     return chatMessageBuffer;
   }
 

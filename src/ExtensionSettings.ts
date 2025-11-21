@@ -57,9 +57,9 @@ export class ExtensionSettings {
   constructor(
     public azureCloud: string,
     public keyvaultName: string,
-    public selectedInsideCodeblock: boolean = false,
-    public pasteOnClick: boolean = false,
-    public maxTokens: number = 0,
-    public temperature: number = 0
+    public selectedInsideCodeblock: boolean = true,
+    public pasteOnClick: boolean = true,
+    public maxTokens: number = 1024,
+    public temperature: number = 0.5
   ) {}
 }

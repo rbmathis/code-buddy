@@ -23,9 +23,9 @@ export function activate(context: vscode.ExtensionContext) {
    * @param config - The configuration settings for the provider.
    * @param config.get("azureCloud") - The Azure cloud environment. Defaults to "AzureCloud".
    * @param config.get("keyvaultName") - The name of the Azure Key Vault. Defaults to an empty string.
-   * @param config.get("selectedInsideCodeblock") - A boolean indicating if the selection is inside a code block. Defaults to false.
-   * @param config.get("pasteOnClick") - A boolean indicating if paste on click is enabled. Defaults to false.
-   * @param config.get<number>("maxTokens") - The maximum number of tokens. Defaults to 500.
+  * @param config.get("selectedInsideCodeblock") - A boolean indicating if the selection is inside a code block. Defaults to true.
+  * @param config.get("pasteOnClick") - A boolean indicating if paste on click is enabled. Defaults to true.
+  * @param config.get<number>("maxTokens") - The maximum number of tokens. Defaults to 1024.
    * @param config.get<number>("temperature") - The temperature setting for the model. Defaults to 0.5.
    */
   const provider = new AOAIViewProvider(
@@ -33,9 +33,9 @@ export function activate(context: vscode.ExtensionContext) {
     new ExtensionSettings(
       config.get("azureCloud") ?? "AzureCloud",
       config.get("keyvaultName") ?? "",
-      config.get("selectedInsideCodeblock") ?? false,
-      config.get("pasteOnClick") ?? false,
-      config.get<number>("maxTokens") ?? 500,
+      config.get("selectedInsideCodeblock") ?? true,
+      config.get("pasteOnClick") ?? true,
+      config.get<number>("maxTokens") ?? 1024,
       config.get<number>("temperature") ?? 0.5
     )
   );
@@ -81,9 +81,9 @@ export function activate(context: vscode.ExtensionContext) {
       new ExtensionSettings(
         config.get("azureCloud") ?? "AzureCloud",
         config.get("keyvaultName") ?? "",
-        config.get("selectedInsideCodeblock") ?? false,
-        config.get("pasteOnClick") ?? false,
-        config.get<number>("maxTokens") ?? 500,
+        config.get("selectedInsideCodeblock") ?? true,
+        config.get("pasteOnClick") ?? true,
+        config.get<number>("maxTokens") ?? 1024,
         config.get<number>("temperature") ?? 0.5
       )
     );

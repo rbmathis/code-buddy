@@ -34,21 +34,6 @@
     }
   });
 
-  function fixCodeBlocks(response) {
-    // Use a regular expression to find all occurrences of the substring in the string
-    const REGEX_CODEBLOCK = /```/g;
-    const matches = response.match(REGEX_CODEBLOCK);
-
-    // Return the number of occurrences of the substring in the response, check if even
-    const count = matches ? matches.length : 0;
-    if (count % 2 === 0) {
-      return response;
-    } else {
-      // append ``` to the end to make the last code block complete
-      return response.concat("\n```");
-    }
-  }
-
   function setResponse() {
     let converter = new showdown.Converter({
       omitExtraWLInCodeBlocks: true,
@@ -57,7 +42,6 @@
       literalMidWordUnderscores: true,
       simpleLineBreaks: true,
     });
-    response = fixCodeBlocks(response);
     let html = converter.makeHtml(response);
     document.getElementById("response").innerHTML = html;
 
@@ -73,7 +57,13 @@
         element.innerText = element.innerText.replace("Copy code", "");
       }
 
-      element.classList.add("inline-flex", "max-w-full", "overflow-hidden", "rounded-sm", "cursor-pointer");
+      element.classList.add(
+        "inline-flex",
+        "max-w-full",
+        "overflow-hidden",
+        "rounded-sm",
+        "cursor-pointer"
+      );
 
       element.addEventListener("click", function (e) {
         e.preventDefault();
@@ -94,13 +84,15 @@
   }
 
   // Listen for keyup events on the prompt input element
-  document.getElementById("prompt-input").addEventListener("keyup", function (e) {
-    // If the key that was pressed was the Enter key
-    if (e.key === "Enter") {
-      vscode.postMessage({
-        type: "prompt",
-        value: this.value,
-      });
-    }
-  });
+  document
+    .getElementById("prompt-input")
+    .addEventListener("keyup", function (e) {
+      // If the key that was pressed was the Enter key
+      if (e.key === "Enter") {
+        vscode.postMessage({
+          type: "prompt",
+          value: this.value,
+        });
+      }
+    });
 })();
